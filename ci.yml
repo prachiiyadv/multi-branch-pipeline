@@ -1,0 +1,21 @@
+name: Multi Branch Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Display Branch Name
+        run: echo "Running on branch ${{ github.ref }}"
+
+      - name: Build Step
+        run: echo "Build successful"
