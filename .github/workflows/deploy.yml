@@ -1,4 +1,4 @@
-name: HTML Deployment Simulation
+name: Dev Branch CI/CD Pipeline
 
 on:
   push:
@@ -6,9 +6,31 @@ on:
       - dev
 
 jobs:
-  deploy:
+  # ==========================
+  # 1️⃣ Commit Message Validation
+  # ==========================
+  validate-commit:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
+      - name: Validate Commit Message
+        run: |
+          echo "Last commit message: ${{ github.event.head_commit.message }}"
+          MESSAGE="${{ github.event.head_commit.message }}"
+          if [[ ! "$MESSAGE" =~ ^(feat:|fix:|docs:) ]]; then
+            echo "❌ Commit message is invalid! Must start with feat:, fix: or docs:"
+            exit 1
+          else
+            echo "✅ Commit message is valid!"
+
+  # ==========================
+  # 2️⃣ HTML Deployment Simulation
+  # ==========================
+  deploy-html:
+    needs: validate-commit   # Run only if commit validation passes
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
