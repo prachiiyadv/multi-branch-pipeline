@@ -12,9 +12,9 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Display Branch Name
+      - name: Show Branch Name
         run: echo "Running on branch ${{ github.ref }}"
 
       - name: Build Step
